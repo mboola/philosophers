@@ -12,24 +12,31 @@
 
 #include "philosophers.h"
 
-int	main(int argc, char **argv)
+t_program_data	convert_input(int argc, char **argv, char *err)
 {
 	t_program_data	data;
-	char			err;
 
-	err = 0;
-	data = convert_input(argc, argv, &err);
-	if (err)
+	if (argc < 5 || argc > 6)
 	{
-		err = 0;
-		ft_putstr_err(1, "Input incorrect.\n", &err);
-		return (0);
+		*err = 1;
+		return (data);
 	}
-	ft_putstr_err(1, "Input correct.\n", &err);
-	display_fork(1000000, 1);
-	display_eating(1000000, 1);
-	display_sleeping(1000000, 1);
-	display_thinking(1000000, 1);
-	display_died(1000000, 1);
-	return (0);
+	data.n_philosophers = ft_atoi_err(argv[1], err);
+	data.n_forks = data.n_philosophers;
+	data.time_to_die = ft_atoi_err(argv[2], err);
+	data.time_to_eat = ft_atoi_err(argv[3], err);
+	data.time_to_sleep = ft_atoi_err(argv[4], err);
+	if (argc == 6)
+	{
+		data.count_eating = 1;
+		data.n_times_to_eat = ft_atoi_err(argv[5], err);
+		if (data.n_times_to_eat <= 0)
+			*err = 1;
+	}
+	else
+	{
+		data.count_eating = 0;
+		data.n_times_to_eat = 0;
+	}
+	return (data);
 }

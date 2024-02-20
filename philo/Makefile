@@ -34,12 +34,13 @@ SANITIZER		=	#-fsanitize=address
 #------------------------------------------------------------------------------
 PHILOSOPHERS_HEADER	=	${INCLUDE}/philosophers.h
 
-MAIN		=	main.c
 ALLOCATION	=	ft_calloc.c
+CONVERTERS	=	convert_input.c ft_atoi_err.c
 DISPLAY		=	display_state.c ft_putchar.c ft_putnbr_long.c ft_putnbr.c \
 				ft_putstr.c states_to_display.c
+MAIN		=	main.c
 
-SRC_FILES	=	${MAIN} ${ALLOCATION} ${DISPLAY}
+SRC_FILES	=	${ALLOCATION} ${CONVERTERS} ${DISPLAY} ${MAIN}
 
 #------------------------------------------------------------------------------
 #	RULE TO GET THE .O COMPILED

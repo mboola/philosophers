@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_atoi_err.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,24 +12,47 @@
 
 #include "philosophers.h"
 
-int	main(int argc, char **argv)
+static char	*cleanup(const char *str, char *n, char c)
 {
-	t_program_data	data;
-	char			err;
-
-	err = 0;
-	data = convert_input(argc, argv, &err);
-	if (err)
+	while (*str == '\f' || *str == '\n' || *str == '\r'
+		|| *str == '\t' || *str == '\v' || *str == ' ')
+		str++;
+	*n = 1;
+	if (*str == '-' || *str == '+')
 	{
-		err = 0;
-		ft_putstr_err(1, "Input incorrect.\n", &err);
-		return (0);
+		if (*str == '-')
+			*n *= -1;
+		str++;
 	}
-	ft_putstr_err(1, "Input correct.\n", &err);
-	display_fork(1000000, 1);
-	display_eating(1000000, 1);
-	display_sleeping(1000000, 1);
-	display_thinking(1000000, 1);
-	display_died(1000000, 1);
-	return (0);
+	while (*str == c)
+		str++;
+	return ((char *)str);
+}
+
+int	ft_atoi_err(const char *str, char *err)
+{
+	unsigned int	num;
+	unsigned int	min;
+	char			n;
+
+	if (*err)
+		return (0);
+	str = cleanup(str, &n, '0');
+	num = 0;
+	min = 0;
+	while (*str >= '0' && *str <= '9')
+	{
+		num = num * 10 + (*str - '0');
+		if (num > min)
+			min = num;
+		else
+		{
+			*err = 1;
+			return (0);
+		}
+		str++;
+	}
+	if ((num - 1 > MAX_INT && n == -1) || (num > MAX_INT) || *str != '\0')
+		*err = 1;
+	return (num * n);
 }
