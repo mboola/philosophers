@@ -22,12 +22,18 @@ int	main(int argc, char **argv)
 		ft_putstr(1, "Input incorrect.\n");
 		return (0);
 	}
-	//main loop
-	display_fork(1000000, 1);
-	display_eating(1000000, 1);
-	display_sleeping(1000000, 1);
-	display_thinking(1000000, 1);
-	display_died(1000000, 1);
+	data->philos = ft_calloc(sizeof(pthread_t), data->n_philosophers);
+	if (data->philos == NULL)
+	{
+		clear_data(&data);
+		return (0);
+	}
+	if (!init_philosophers(data->philos, data))
+	{
+		clear_data(&data);
+		return (0);
+	}
+	wait_philosophers(data->philos, data->n_philosophers);
 	clear_data(&data);
 	return (0);
 }

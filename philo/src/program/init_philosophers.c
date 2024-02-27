@@ -12,10 +12,55 @@
 
 #include "philosophers.h"
 
-t_pgrm_data	*clear_data(t_pgrm_data **data)
+static void	*philosopher_loop(void *arg)
 {
-	if ((*data)->philos != NULL)
-		free((*data)->philos);
-	free(*data);
-	return (NULL);
+	t_pgrm_data *data;
+
+	data = (t_pgrm_data *)arg;
+	display_eating(1000000, 1, data->print_mutex);
+	pthread_exit(NULL);
+}
+
+void	wait_philosophers(pthread_t *philos, char n_philosophers)
+{
+	char	i;
+
+	i = 0;
+	while (i < n_philosophers)
+	{
+		pthread_join(philos[i], NULL);
+		i++;
+	}
+}
+
+static char	init_mutex(t_pgrm_data *data)
+{
+	pthread_mutexattr_t	attr;
+	pthread_mutex_t		mut; 
+	
+	if (pthread_mutexattr_init(&attr))                                  
+		return (0);
+	if (pthread_mutex_init(&mut, &attr))
+		return (0);
+	data->print_mutex = &mut;
+	return (1);
+}
+
+char	init_philosophers(pthread_t *philos, t_pgrm_data *data)
+{
+	int	i;
+
+	if (!init_mutex(data))
+		return (0);
+	i = 0;
+	while (i < data->n_philosophers)
+	{
+		if (pthread_create(&philos[i], NULL, philosopher_loop, data))
+		{
+			//TODO: close all threads
+			return (0);
+		}
+		i++;
+	}
+	return (1);
 }

@@ -26,8 +26,9 @@ CC				=	cc
 CFLAGS			=	-Wall #-Wextra -Werror
 HEADERS			=	-I./${INCLUDE}
 OPTIMIZATION	=	#-O3
-DEBUG			=	#-g
-SANITIZER		=	#-fsanitize=address
+DEBUG			=	-g
+SANITIZER		=	-fsanitize=address
+PTHREAD			=	#-lpthread
 
 #------------------------------------------------------------------------------
 #	FILES
@@ -38,9 +39,9 @@ ALLOCATION	=	ft_calloc.c clear_data.c
 CONVERTERS	=	convert_input.c ft_atoi_err.c
 DISPLAY		=	display_state.c ft_putchar.c ft_putnbr_long.c ft_putnbr.c \
 				ft_putstr.c states_to_display.c
-MAIN		=	main.c
+PROGRAM		=	main.c init_philosophers.c
 
-SRC_FILES	=	${ALLOCATION} ${CONVERTERS} ${DISPLAY} ${MAIN}
+SRC_FILES	=	${ALLOCATION} ${CONVERTERS} ${DISPLAY} ${PROGRAM}
 
 #------------------------------------------------------------------------------
 #	RULE TO GET THE .O COMPILED
@@ -48,7 +49,7 @@ SRC_FILES	=	${ALLOCATION} ${CONVERTERS} ${DISPLAY} ${MAIN}
 OBJ_FILES = ${patsubst %.c,${OBJ_DIR}/%.o,${notdir ${SRC_FILES}}}
 
 ${OBJ_DIR}/%.o: ${SRC}/*/%.c ${PHILOSOPHERS_HEADER} Makefile
-	$(CC) ${CFLAGS} ${HEADERS} ${OPTIMIZATION} ${SANITIZER} -c $< -o $@ ${DEBUG}
+	$(CC) ${CFLAGS} ${HEADERS} ${OPTIMIZATION} ${SANITIZER} ${PTHREAD} -c $< -o $@ ${DEBUG}
 
 #------------------------------------------------------------------------------
 #	MAIN RULES TO COMPILE AND CREATE THE EXECUTABLE AND TO CLEAN IT

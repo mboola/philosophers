@@ -13,10 +13,12 @@
 #include "philosophers.h"
 
 //probably use a mutex here
-int	display_state(long ms, int philosopher, char *state)
+int	display_state(long ms, int philo, char *state, pthread_mutex_t *mutex)
 {
 	char	err;
 
+	if (pthread_mutex_lock(mutex))
+		return (0);
 	err = 0;
 	ft_putnbr_long_err(1, ms, &err);
 	if (err)
@@ -24,11 +26,13 @@ int	display_state(long ms, int philosopher, char *state)
 	ft_putchar_err(1, ' ', &err);
 	if (err)
 		return (0);
-	ft_putnbr_err(1, philosopher, &err);
+	ft_putnbr_err(1, philo, &err);
 	if (err)
 		return (0);
 	ft_putstr_err(1, state, &err);
 	if (err)
+		return (0);
+	if (pthread_mutex_unlock(mutex))
 		return (0);
 	return (1);
 }

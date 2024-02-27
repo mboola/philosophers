@@ -12,27 +12,27 @@
 
 #include "philosophers.h"
 
-int	display_fork(long ms, int philosopher)
+int	display_fork(long ms, int philosopher, pthread_mutex_t *mutex)
 {
-	return (display_state(ms, philosopher, " has taken a fork\n"));
+	return (display_state(ms, philosopher, " has taken a fork\n", mutex));
 }
 
-int	display_eating(long ms, int philosopher)
+int	display_eating(long ms, int philosopher, pthread_mutex_t *mutex)
 {
-	return (display_state(ms, philosopher, " is eating\n"));
+	return (display_state(ms, philosopher, " is eating\n", mutex));
 }
 
-int	display_sleeping(long ms, int philosopher)
+int	display_sleeping(long ms, int philosopher, pthread_mutex_t *mutex)
 {
-	return (display_state(ms, philosopher, " is sleeping\n"));
+	return (display_state(ms, philosopher, " is sleeping\n", mutex));
 }
 
-int	display_thinking(long ms, int philosopher)
+int	display_thinking(long ms, int philosopher, pthread_mutex_t *mutex)
 {
-	return (display_state(ms, philosopher, " is thinking\n"));
+	return (display_state(ms, philosopher, " is thinking\n", mutex));
 }
 
-int	display_died(long ms, int philosopher)
+int	display_died(long ms, int philosopher, pthread_mutex_t *mutex)
 {
-	return (display_state(ms, philosopher, " died\n"));
+	return (display_state(ms, philosopher, " died\n", mutex));
 }

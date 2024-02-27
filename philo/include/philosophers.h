@@ -23,6 +23,8 @@
 */
 # include <stdlib.h>
 
+# include <pthread.h>
+
 # ifndef DEC_BASE
 #  define DEC_BASE "0123456789"
 # endif
@@ -45,14 +47,16 @@ typedef struct s_list
  */
 typedef struct s_program_data
 {
-	int		n_philosophers;
-	t_list	*forks;
-	int		ns_to_die;
-	int		ns_to_eat;
-	int		ns_to_sleep;
-	int		times_to_eat;
-	char	can_end;
-	char	count_eating;
+	int				n_philosophers;
+	t_list			*forks;
+	int				ns_to_die;
+	int				ns_to_eat;
+	int				ns_to_sleep;
+	int				times_to_eat;
+	char			can_end;
+	char			count_eating;
+	pthread_t		*philos;
+	pthread_mutex_t	*print_mutex;
 }	t_pgrm_data;
 
 /*
@@ -79,11 +83,17 @@ int			ft_putstr_err(int fd, char *str, char *err);
 /*
  *	Functions to display the states of the philosophers.
  */
-int			display_fork(long ms, int philosopher);
-int			display_eating(long ms, int philosopher);
-int			display_sleeping(long ms, int philosopher);
-int			display_thinking(long ms, int philosopher);
-int			display_died(long ms, int philosopher);
-int			display_state(long ms, int philosopher, char *state);
+int	display_fork(long ms, int philosopher, pthread_mutex_t *mutex);
+int	display_eating(long ms, int philosopher, pthread_mutex_t *mutex);
+int	display_sleeping(long ms, int philosopher, pthread_mutex_t *mutex);
+int	display_thinking(long ms, int philosopher, pthread_mutex_t *mutex);
+int	display_died(long ms, int philosopher, pthread_mutex_t *mutex);
+int	display_state(long ms, int philo, char *state, pthread_mutex_t *mutex);
+
+/*
+ *	Thread functions.
+ */
+char	init_philosophers(pthread_t *philos, t_pgrm_data *data);
+void	wait_philosophers(pthread_t *philos, char n_philosophers);
 
 #endif
