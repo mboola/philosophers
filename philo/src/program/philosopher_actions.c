@@ -12,23 +12,70 @@
 
 #include "philosophers.h"
 
-static void	get_forks(unsigned char id, pthread_mutex_t *forks)
+static int	get_forks(unsigned char id, t_pgrm_data *data)
 {
-	//
+	unsigned char	fork1;
+	unsigned char	fork2;
+	char			gotten;
+
+	gotten = 0;
+	while (!gotten)
+	{
+		if (pthread_mutex_lock(&(data->forks_mutex)))
+			return (0);
+		if (id == 0 || id == data->n_philosophers - 1)
+		{
+			fork1 = 0;
+			fork2 = data->n_philosophers - 1;
+		}
+		else
+		{
+			fork1 = id;
+			fork2 = id + 1;
+		}
+		if (*(data->forks + fork1) && *(data->forks + fork2))
+		{
+			*(data->forks + fork1) = 0;
+			*(data->forks + fork2) = 0;
+			gotten = 1;
+		}
+		if (pthread_mutex_unlock(&(data->forks_mutex)))
+			return (0);
+	}
+	return (1);
 }
 
-static void	release_forks(unsigned char id, pthread_mutex_t *forks)
+static int	release_forks(unsigned char id, t_pgrm_data *data)
 {
-	
+	unsigned char	fork1;
+	unsigned char	fork2;
+
+	if (pthread_mutex_lock(&(data->forks_mutex)))
+		return (0);
+	if (id == 0 || id == data->n_philosophers - 1)
+	{
+		fork1 = 0;
+		fork2 = data->n_philosophers - 1;
+	}
+	else
+	{
+		fork1 = id;
+		fork2 = id + 1;
+	}
+	*(data->forks + fork1) = 1;
+	*(data->forks + fork2) = 1;
+	if (pthread_mutex_unlock(&(data->forks_mutex)))
+		return (0);
+	return (1);
 }
 
 void	philo_eat(t_philo *philo)
 {
-	get_forks(philo->id, philo->data->forks);
+	get_forks(philo->id, philo->data);
 	display_eating(get_time_diff(philo->data->init_time),
 		philo->id, &(philo->data->print_mutex));
 	usleep(philo->data->ms_to_eat * 1000);
-	release_forks(philo->id, philo->data->forks);
+	release_forks(philo->id, philo->data);
 }
 
 void	philo_sleep(t_philo *philo)

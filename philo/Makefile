@@ -23,11 +23,11 @@ OBJ_DIR		=	objects
 #	COMPILATION FLAGS
 #------------------------------------------------------------------------------
 CC				=	cc
-CFLAGS			=	-Wall #-Wextra -Werror
+CFLAGS			=	-Wall -Wextra -Werror
 HEADERS			=	-I./${INCLUDE}
 OPTIMIZATION	=	#-O3
-DEBUG			=	-g
-SANITIZER		=	-fsanitize=address
+DEBUG			=	#-g
+SANITIZER		=	#-fsanitize=address
 PTHREAD			=	#-lpthread
 
 #------------------------------------------------------------------------------
@@ -35,7 +35,7 @@ PTHREAD			=	#-lpthread
 #------------------------------------------------------------------------------
 PHILOSOPHERS_HEADER	=	${INCLUDE}/philosophers.h
 
-ALLOCATION	=	ft_calloc.c clear_data.c
+ALLOCATION	=	clear_data.c ft_calloc.c ft_memset.c
 CONVERTERS	=	convert_input.c convert_time.c ft_atoi_err.c
 DISPLAY		=	display_state.c ft_putchar.c ft_putnbr_long.c ft_putnbr.c \
 				ft_putstr.c states_to_display.c

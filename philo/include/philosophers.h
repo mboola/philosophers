@@ -55,16 +55,18 @@ typedef struct s_program_data
 	int				ms_to_sleep;
 	int				times_to_eat;
 	char			can_end;
+	char			*forks;
 	char			count_eating;
 	suseconds_t		init_time;
 	pthread_t		*philos;
+	pthread_mutex_t	forks_mutex;
 	pthread_mutex_t	print_mutex;
-	pthread_mutex_t	*forks;
 }	t_pgrm_data;
 
 typedef struct s_philo
 {
 	unsigned char	id;
+	suseconds_t		last_time_eat;
 	t_pgrm_data		*data;
 }	t_philo;
 
@@ -79,8 +81,9 @@ int			ft_atoi_err(const char *str, char *err);
 /*
  *	Functions used in memory allocation.
  */
-void		*ft_calloc(size_t count, size_t size);
 t_pgrm_data	*clear_data(t_pgrm_data **data);
+void		*ft_calloc(size_t count, size_t size);
+void		*ft_memset(void *s, int c, size_t n);
 
 /*
  *	Functions used to display data.

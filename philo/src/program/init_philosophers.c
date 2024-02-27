@@ -44,25 +44,17 @@ void	wait_philosophers(pthread_t *philos, char n_philosophers)
 static char	init_mutex(t_pgrm_data *data)
 {
 	pthread_mutexattr_t	attr;
-	unsigned char		i;
-	
+
+	data->forks = ft_calloc(sizeof(char), data->n_philosophers);
+	if (data->forks == NULL)
+		return (0);
+	ft_memset(data->forks, 1, data->n_philosophers);
 	if (pthread_mutexattr_init(&attr))                                  
 		return (0);
 	if (pthread_mutex_init(&(data->print_mutex), &attr))
 		return (0);
-	data->forks = ft_calloc(sizeof(pthread_mutex_t), data->n_philosophers);
-	if (data->forks == NULL)
+	if (pthread_mutex_init(&(data->forks_mutex), &attr))
 		return (0);
-	i = 0;
-	while (i < data->n_philosophers)
-	{
-		if (pthread_mutex_init(&(data->forks[i]), &attr))
-		{
-			//clear data->forks and other things
-			return (0);
-		}
-		i++;
-	}
 	return (1);
 }
 

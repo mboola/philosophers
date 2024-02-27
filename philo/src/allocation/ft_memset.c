@@ -12,12 +12,17 @@
 
 #include "philosophers.h"
 
-t_pgrm_data	*clear_data(t_pgrm_data **data)
+void	*ft_memset(void *s, int c, size_t n)
 {
-	if ((*data)->philos != NULL)
-		free((*data)->philos);
-	if ((*data)->forks != NULL)
-		free((*data)->forks);
-	free(*data);
-	return (NULL);
+	size_t			count;
+	unsigned char	*ptr;
+
+	ptr = s;
+	count = 0;
+	while (count < n)
+	{
+		*(ptr + count) = (unsigned char)c;
+		count++;
+	}
+	return (s);
 }
