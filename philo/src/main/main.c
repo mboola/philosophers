@@ -14,22 +14,20 @@
 
 int	main(int argc, char **argv)
 {
-	t_program_data	data;
-	char			err;
+	t_pgrm_data	*data;
 
-	err = 0;
-	data = convert_input(argc, argv, &err);
-	if (err)
+	data = convert_input(argc, argv);
+	if (data == NULL)
 	{
-		err = 0;
-		ft_putstr_err(1, "Input incorrect.\n", &err);
+		ft_putstr(1, "Input incorrect.\n");
 		return (0);
 	}
-	ft_putstr_err(1, "Input correct.\n", &err);
+	//main loop
 	display_fork(1000000, 1);
 	display_eating(1000000, 1);
 	display_sleeping(1000000, 1);
 	display_thinking(1000000, 1);
 	display_died(1000000, 1);
+	clear_data(&data);
 	return (0);
 }

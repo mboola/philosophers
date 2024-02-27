@@ -34,7 +34,7 @@ SANITIZER		=	#-fsanitize=address
 #------------------------------------------------------------------------------
 PHILOSOPHERS_HEADER	=	${INCLUDE}/philosophers.h
 
-ALLOCATION	=	ft_calloc.c
+ALLOCATION	=	ft_calloc.c clear_data.c
 CONVERTERS	=	convert_input.c ft_atoi_err.c
 DISPLAY		=	display_state.c ft_putchar.c ft_putnbr_long.c ft_putnbr.c \
 				ft_putstr.c states_to_display.c

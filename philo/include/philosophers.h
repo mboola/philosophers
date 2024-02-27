@@ -32,46 +32,58 @@
 # endif
 
 /*
+ *	Struct that defines a one way linked list.
+ */
+typedef struct s_list
+{
+	void			*content;
+	struct t_list	*next;
+}	t_list;
+
+/*
  *	Struct used store the program information.
  */
-typedef struct s_program_data {
+typedef struct s_program_data
+{
 	int		n_philosophers;
-	int		n_forks;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
-	int		n_times_to_eat;
+	t_list	*forks;
+	int		ns_to_die;
+	int		ns_to_eat;
+	int		ns_to_sleep;
+	int		times_to_eat;
+	char	can_end;
 	char	count_eating;
-	char	ended;
-}	t_program_data;
+}	t_pgrm_data;
 
 /*
  *	Functions used when converting input to data the program will use.
  */
-t_program_data	convert_input(int argc, char **argv, char *err);
-int				ft_atoi_err(const char *str, char *err);
+t_pgrm_data	*convert_input(int argc, char **argv);
+int			ft_atoi_err(const char *str, char *err);
 
 /*
  *	Functions used in memory allocation.
  */
-void			*ft_calloc(size_t count, size_t size);
+void		*ft_calloc(size_t count, size_t size);
+t_pgrm_data	*clear_data(t_pgrm_data **data);
 
 /*
  *	Functions used to display data.
  */
-int				ft_putchar_err(int fd, char c, char *err);
-int				ft_putnbr_long_err(int fd, unsigned long number, char *err);
-int				ft_putnbr_err(int fd, int num, char *err);
-int				ft_putstr_err(int fd, char *str, char *err);
+int			ft_putstr(int fd, char *str);
+int			ft_putchar_err(int fd, char c, char *err);
+int			ft_putnbr_long_err(int fd, unsigned long number, char *err);
+int			ft_putnbr_err(int fd, int num, char *err);
+int			ft_putstr_err(int fd, char *str, char *err);
 
 /*
  *	Functions to display the states of the philosophers.
  */
-int				display_fork(long ms, int philosopher);
-int				display_eating(long ms, int philosopher);
-int				display_sleeping(long ms, int philosopher);
-int				display_thinking(long ms, int philosopher);
-int				display_died(long ms, int philosopher);
-int				display_state(long ms, int philosopher, char *state);
+int			display_fork(long ms, int philosopher);
+int			display_eating(long ms, int philosopher);
+int			display_sleeping(long ms, int philosopher);
+int			display_thinking(long ms, int philosopher);
+int			display_died(long ms, int philosopher);
+int			display_state(long ms, int philosopher, char *state);
 
 #endif
