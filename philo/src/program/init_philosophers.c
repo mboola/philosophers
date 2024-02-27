@@ -11,14 +11,21 @@
 /* ************************************************************************** */
 
 #include "philosophers.h"
-#include <stdio.h>
 
 static void	*philosopher_loop(void *arg)
 {
-	t_pgrm_data *data;
+	t_philo			*philo;
+	unsigned char	n;
 
-	data = (t_pgrm_data *)arg;
-	display_eating(1000000, 1, &(data->print_mutex));
+	n = 0;
+	philo = (t_philo *)arg;
+	while (n < 3)
+	{
+		philo_eat(philo);
+		philo_sleep(philo);
+		philo_think(philo);
+		n++;
+	}
 	pthread_exit(NULL);
 }
 
@@ -37,24 +44,45 @@ void	wait_philosophers(pthread_t *philos, char n_philosophers)
 static char	init_mutex(t_pgrm_data *data)
 {
 	pthread_mutexattr_t	attr;
+	unsigned char		i;
 	
 	if (pthread_mutexattr_init(&attr))                                  
 		return (0);
 	if (pthread_mutex_init(&(data->print_mutex), &attr))
 		return (0);
-	return (1);
-}
-
-char	init_philosophers(pthread_t *philos, t_pgrm_data *data)
-{
-	int	i;
-
-	if (!init_mutex(data))
+	data->forks = ft_calloc(sizeof(pthread_mutex_t), data->n_philosophers);
+	if (data->forks == NULL)
 		return (0);
 	i = 0;
 	while (i < data->n_philosophers)
 	{
-		if (pthread_create(&philos[i], NULL, philosopher_loop, data))
+		if (pthread_mutex_init(&(data->forks[i]), &attr))
+		{
+			//clear data->forks and other things
+			return (0);
+		}
+		i++;
+	}
+	return (1);
+}
+
+char	init_philosophers(pthread_t *philos_id, t_pgrm_data *data)
+{
+	unsigned char	i;
+	t_philo			*philo;
+
+	if (!init_mutex(data))
+		return (0);
+	i = 0;
+	philo = ft_calloc(sizeof(t_philo), data->n_philosophers);
+	if (philo == NULL)
+		return (0);
+	data->init_time = get_time();
+	while (i < data->n_philosophers)
+	{
+		philo[i].data = data;
+		philo[i].id = i;
+		if (pthread_create(&philos_id[i], NULL, philosopher_loop, &philo[i]))
 		{
 			//TODO: close all threads
 			return (0);

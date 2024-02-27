@@ -12,29 +12,16 @@
 
 #include "philosophers.h"
 
-int	main(int argc, char **argv)
+suseconds_t	get_time(void)
 {
-	t_pgrm_data	*data;
+	struct timeval	tv;
 
-	data = convert_input(argc, argv);
-	if (data == NULL)
-	{
-		ft_putstr(1, "Input incorrect.\n");
-		return (0);
-	}
-	data->philos = ft_calloc(sizeof(pthread_t), data->n_philosophers);
-	if (data->philos == NULL)
-	{
-		clear_data(&data);
-		return (0);
-	}
-	if (!init_philosophers(data->philos, data))
-	{
-		clear_data(&data);
-		return (0);
-	}
-	wait_philosophers(data->philos, (char)data->n_philosophers);
-	//TODO: here destroy mutexes
-	clear_data(&data);
-	return (0);
+	gettimeofday(&tv, NULL);
+	return (tv.tv_usec);
+}
+
+suseconds_t	get_time_diff(suseconds_t init_time)
+{
+	return ((init_time - get_time()));
+	//return (10);
 }

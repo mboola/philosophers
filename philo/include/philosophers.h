@@ -25,6 +25,8 @@
 
 # include <pthread.h>
 
+# include <sys/time.h>
+
 # ifndef DEC_BASE
 #  define DEC_BASE "0123456789"
 # endif
@@ -48,21 +50,30 @@ typedef struct s_list
 typedef struct s_program_data
 {
 	int				n_philosophers;
-	t_list			*forks;
-	int				ns_to_die;
-	int				ns_to_eat;
-	int				ns_to_sleep;
+	int				ms_to_die;
+	int				ms_to_eat;
+	int				ms_to_sleep;
 	int				times_to_eat;
 	char			can_end;
 	char			count_eating;
+	suseconds_t		init_time;
 	pthread_t		*philos;
 	pthread_mutex_t	print_mutex;
+	pthread_mutex_t	*forks;
 }	t_pgrm_data;
+
+typedef struct s_philo
+{
+	unsigned char	id;
+	t_pgrm_data		*data;
+}	t_philo;
 
 /*
  *	Functions used when converting input to data the program will use.
  */
 t_pgrm_data	*convert_input(int argc, char **argv);
+suseconds_t	get_time(void);
+suseconds_t	get_time_diff(suseconds_t init_time);
 int			ft_atoi_err(const char *str, char *err);
 
 /*
@@ -89,6 +100,14 @@ int	display_sleeping(long ms, int philosopher, pthread_mutex_t *mutex);
 int	display_thinking(long ms, int philosopher, pthread_mutex_t *mutex);
 int	display_died(long ms, int philosopher, pthread_mutex_t *mutex);
 int	display_state(long ms, int philo, char *state, pthread_mutex_t *mutex);
+
+
+/*
+ *	Actions of philsophers.
+ */
+void	philo_eat(t_philo *philo);
+void	philo_sleep(t_philo *philo);
+void	philo_think(t_philo *philo);
 
 /*
  *	Thread functions.
