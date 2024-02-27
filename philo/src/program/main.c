@@ -33,7 +33,8 @@ int	main(int argc, char **argv)
 		clear_data(&data);
 		return (0);
 	}
-	wait_philosophers(data->philos, data->n_philosophers);
+	wait_philosophers(data->philos, (char)data->n_philosophers);
+	//here destroy mutexes
 	clear_data(&data);
 	return (0);
 }

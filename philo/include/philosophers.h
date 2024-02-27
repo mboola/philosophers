@@ -56,7 +56,7 @@ typedef struct s_program_data
 	char			can_end;
 	char			count_eating;
 	pthread_t		*philos;
-	pthread_mutex_t	*print_mutex;
+	pthread_mutex_t	print_mutex;
 }	t_pgrm_data;
 
 /*

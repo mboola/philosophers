@@ -11,19 +11,20 @@
 /* ************************************************************************** */
 
 #include "philosophers.h"
+#include <stdio.h>
 
 static void	*philosopher_loop(void *arg)
 {
 	t_pgrm_data *data;
 
 	data = (t_pgrm_data *)arg;
-	display_eating(1000000, 1, data->print_mutex);
+	display_eating(1000000, 1, &(data->print_mutex));
 	pthread_exit(NULL);
 }
 
 void	wait_philosophers(pthread_t *philos, char n_philosophers)
 {
-	char	i;
+	unsigned char	i;
 
 	i = 0;
 	while (i < n_philosophers)
@@ -36,13 +37,11 @@ void	wait_philosophers(pthread_t *philos, char n_philosophers)
 static char	init_mutex(t_pgrm_data *data)
 {
 	pthread_mutexattr_t	attr;
-	pthread_mutex_t		mut; 
 	
 	if (pthread_mutexattr_init(&attr))                                  
 		return (0);
-	if (pthread_mutex_init(&mut, &attr))
+	if (pthread_mutex_init(&(data->print_mutex), &attr))
 		return (0);
-	data->print_mutex = &mut;
 	return (1);
 }
 
