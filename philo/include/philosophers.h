@@ -36,41 +36,6 @@
 # endif
 
 /*
- *	Struct that defines a one way linked list.
- */
-typedef struct s_list
-{
-	void			*content;
-	struct t_list	*next;
-}	t_list;
-
-/*
- *	Struct used store the program information.
- */
-typedef struct s_program_data
-{
-	int				n_philosophers;
-	int				ms_to_die;
-	int				ms_to_eat;
-	int				ms_to_sleep;
-	int				times_to_eat;
-	char			can_end;
-	char			*forks;
-	char			count_eating;
-	suseconds_t		init_time;
-	pthread_t		*philos;
-	pthread_mutex_t	forks_mutex;
-	pthread_mutex_t	print_mutex;
-}	t_pgrm_data;
-
-typedef struct s_philo
-{
-	unsigned char	id;
-	suseconds_t		last_time_eat;
-	t_pgrm_data		*data;
-}	t_philo;
-
-/*
  *	Functions used when converting input to data the program will use.
  */
 t_pgrm_data	*convert_input(int argc, char **argv);
@@ -117,5 +82,24 @@ void	philo_think(t_philo *philo);
  */
 char	init_philosophers(pthread_t *philos, t_pgrm_data *data);
 void	wait_philosophers(pthread_t *philos, char n_philosophers);
+
+
+//----------------------------------------------------------new functions
+
+
+/*
+ *	Functions to initialize the program correctly.
+ */
+char	init_data(int argc, char **argv, t_dinnertable *dinnertable,
+	char *error_msg);
+char	init_control(t_dinnertable *dinnertable, char **error_msg);
+
+
+
+/*
+ *	Printing an error when starting the program to stdout.
+ */
+void	print_error(const char *error_msg);
+
 
 #endif

@@ -12,29 +12,35 @@
 
 #include "philosophers.h"
 
+static void	main_loop(t_dinnertable *dinnertable)
+{
+	dinnertable->control.start = TRUE;
+	while (!(dinnertable->end));
+}
+
 int	main(int argc, char **argv)
 {
-	t_pgrm_data	*data;
+	t_dinnertable	dinnertable;
+	const char		*error_msg;
 
-	data = convert_input(argc, argv);
-	if (data == NULL)
+	if (init_data(argc, argv, &dinnertable, &error_msg) == ERROR)
 	{
-		ft_putstr(1, "Input incorrect.\n");
-		return (0);
+		print_error(error_msg);
+		return (ERROR_PROGRAM);
 	}
-	data->philos = ft_calloc(sizeof(pthread_t), data->n_philosophers);
-	if (data->philos == NULL)
+	if (init_control(&dinnertable, &error_msg) == ERROR)
 	{
-		clear_data(&data);
-		return (0);
+		print_error(error_msg);
+		return (ERROR_PROGRAM);
 	}
-	if (!init_philosophers(data->philos, data))
+	dinnertable->control.start = FALSE;
+	dinnertable->control.error_init = FALSE;
+	if (init_threads(&dinnertable, &error_msg) == ERROR)
 	{
-		clear_data(&data);
-		return (0);
+		print_error(error_msg);
+		return (ERROR_PROGRAM);
 	}
-	wait_philosophers(data->philos, (char)data->n_philosophers);
-	//TODO: here destroy mutexes
-	clear_data(&data);
+	main_loop(&dinnertable);
+	finalize_data(&dinnertable);
 	return (0);
 }
