@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_msg.h                                        :+:      :+:    :+:   */
+/*   values_limits.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,31 +10,39 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERROR_MSG_H
-# define ERROR_MSG_H
+#ifndef VALUES_LIMITS_H
+# define VALUES_LIMITS_H
 
-# ifndef BAD_PARAMS
-#  define BAD_PARAMS "ERROR: n param must be between 5 and 6.\n"
+# ifndef MAX_THREADS
+#  define MAX_THREADS 16000
 # endif
 
-# ifndef MAX_THREADS_ERROR
-#  define MAX_THREADS_ERROR "ERROR: max threads surpassed.\n"
+# ifndef ERROR
+#  define ERROR 0
 # endif
 
-# ifndef THREAD_CREATION_ERROR
-#  define THREAD_CREATION_ERROR "ERROR: error when creatin thread.\n"
+# ifndef CORRECT
+#  define CORRECT 1
 # endif
 
-# ifndef MAX_INT_OVERFLOW
-#  define MAX_INT_OVERFLOW "ERROR: number inputed superior to int.\n"
+# ifndef TRUE
+#  define TRUE 1
 # endif
 
-# ifndef VALUE_INFERIOR_MIN
-#  define VALUE_INFERIOR_MIN "ERROR: num inputed cannot be that low.\n"
+# ifndef FALSE
+#  define FALSE 0
 # endif
 
-# ifndef MALLOC_ERROR
-#  define MALLOC_ERROR "ERROR: malloc error.\n"
+# ifndef ERROR_PROGRAM
+#  define ERROR_PROGRAM 2
+# endif
+
+# ifndef MUTEX_CORRECTLY_CREATED
+#  define MUTEX_CORRECTLY_CREATED 0
+# endif
+
+# ifndef THREAD_CORRECTLY_CREATED
+#  define THREAD_CORRECTLY_CREATED 0
 # endif
 
 #endif

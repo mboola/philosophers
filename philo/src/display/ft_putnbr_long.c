@@ -12,17 +12,16 @@
 
 #include "philosophers.h"
 
-int	ft_putnbr_long_err(int fd, unsigned long number, char *err)
+int	ft_putnbr_long(int fd, unsigned long number)
 {
 	int	count;
 
 	if (number / 10 < 1)
-		return (ft_putchar_err(fd, DEC_BASE[number], err));
+		return (ft_putchar(fd, DEC_BASE[number]));
 	else
 	{
-		count = ft_putnbr_long_err(fd, number / 10, err);
-		if (!*err)
-			count += ft_putchar_err(fd, DEC_BASE[number % 10], err);
+		count = ft_putnbr_long(fd, number / 10);
+		count += ft_putchar(fd, DEC_BASE[number % 10]);
 		return (count);
 	}
 }

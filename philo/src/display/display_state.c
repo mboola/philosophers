@@ -13,26 +13,18 @@
 #include "philosophers.h"
 
 //probably use a mutex here
-int	display_state(long ms, int philo, char *state, pthread_mutex_t *mutex)
+int	display_state(long ms, int philo_id, char *state, pthread_mutex_t *mutex)
 {
-	char	err;
-
-	if (pthread_mutex_lock(mutex))
-		return (0);
-	err = 0;
-	ft_putnbr_long_err(1, ms, &err);
-	if (err)
-		return (0);
-	ft_putchar_err(1, ' ', &err);
-	if (err)
-		return (0);
-	ft_putnbr_err(1, philo, &err);
-	if (err)
-		return (0);
-	ft_putstr_err(1, state, &err);
-	if (err)
-		return (0);
-	if (pthread_mutex_unlock(mutex))
-		return (0);
+	pthread_mutex_lock(mutex);
+	ft_putnbr_long(1, ms);
+	ft_putchar(1, ' ');
+	ft_putnbr(1, philo_id);
+	ft_putstr(1, state);
+	pthread_mutex_unlock(mutex);
 	return (1);
+}
+
+void	print_error(const char *error_msg)
+{
+	ft_putstr(1, (char *) error_msg);
 }

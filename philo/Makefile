@@ -28,18 +28,20 @@ HEADERS			=	-I./${INCLUDE}
 OPTIMIZATION	=	#-O3
 DEBUG			=	#-g
 SANITIZER		=	#-fsanitize=address
-PTHREAD			=	#-lpthread
+PTHREAD			=	-lpthread
 
 #------------------------------------------------------------------------------
 #	FILES
 #------------------------------------------------------------------------------
-PHILOSOPHERS_HEADER	=	${INCLUDE}/philosophers.h
+PHILOSOPHERS_HEADER	=	${INCLUDE}/philosophers.h ${INCLUDE}/philo_structs.h \
+						${INCLUDE}/error_msg.h ${INCLUDE}/values_limits.h
 
-ALLOCATION	=	clear_data.c ft_calloc.c ft_memset.c
-CONVERTERS	=	convert_input.c convert_time.c ft_atoi_err.c
+ALLOCATION	=	ft_calloc.c ft_memset.c
+CONVERTERS	=	ft_atoi_err.c
 DISPLAY		=	display_state.c ft_putchar.c ft_putnbr_long.c ft_putnbr.c \
 				ft_putstr.c states_to_display.c
-PROGRAM		=	init_philosophers.c main.c philosopher_actions.c
+PROGRAM		=	actions.c end_functs.c init_control.c init_data.c init_threads.c \
+				main.c philo_functionality.c time.c
 
 SRC_FILES	=	${ALLOCATION} ${CONVERTERS} ${DISPLAY} ${PROGRAM}
 

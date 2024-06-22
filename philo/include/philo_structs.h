@@ -13,9 +13,10 @@
 #ifndef PHILO_STRUCTS_H
 # define PHILO_STRUCTS_H
 
+# include "values_limits.h"
+
 typedef struct s_data
 {
-	int		n_philosophers;
 	int		ms_to_die;
 	int		ms_to_eat;
 	int		ms_to_sleep;
@@ -25,8 +26,6 @@ typedef struct s_data
 
 typedef struct s_control
 {
-	char			error_init;
-	char			start;
 	int				n_access;
 	int				max_n_access;
 	pthread_mutex_t	access_to_forks;
@@ -39,8 +38,20 @@ typedef struct s_control
 
 typedef struct s_dinnertable
 {
+	char		error_init;
+	char		start;
+	char		end;
+	int			n_philosophers;
+	pthread_t	thread_id[MAX_THREADS];
 	t_data		data;
 	t_control	control;
 }	t_dinnertable;
+
+typedef struct s_philo
+{
+	int				id;
+	long			start_time;
+	t_dinnertable	*dinnertable;
+}	t_philo;
 
 #endif

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_functionality.c                              :+:      :+:    :+:   */
+/*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,23 +12,18 @@
 
 #include "philosophers.h"
 
-void	*philo_funct(void *arg)
+/*
+ *	Thread-safe, we do not need to control access.
+ */
+long	get_time()
 {
-	t_philo *philo;
+	struct timeval	timestamp;
 
-	philo = (t_philo *)arg;
-	while (philo->dinnertable->error_init == FALSE
-		&& philo->dinnertable->start == FALSE);
-	philo->start_time = get_time();
-	if (philo->dinnertable->error_init == FALSE)
-	{
-		while (philo->dinnertable->end == FALSE)
-		{
-			philo_think(philo);
-			philo_eat(philo);
-			philo_sleep(philo);
-		}
-	}
-	free(philo);
-	pthread_exit(0);
+	gettimeofday(&timestamp, NULL);
+	return ((timestamp.tv_sec * 1000) + (timestamp.tv_usec / 1000));
+}
+
+long	get_curr_time(t_philo *philo)
+{
+	return (get_time() - philo->start_time);
 }

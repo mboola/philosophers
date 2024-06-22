@@ -22,10 +22,12 @@
 *	Library with malloc and free functions.
 */
 # include <stdlib.h>
-
 # include <pthread.h>
-
 # include <sys/time.h>
+
+# include "philo_structs.h"
+# include "values_limits.h"
+# include "error_msg.h"
 
 # ifndef DEC_BASE
 #  define DEC_BASE "0123456789"
@@ -36,70 +38,60 @@
 # endif
 
 /*
+ *	Functions to initialize the program correctly.
+ */
+char	init_data(int argc, char **argv, t_dinnertable *dinnertable,
+	const char **error_msg);
+char	init_control(t_dinnertable *dinnertable, const char **error_msg);
+char	init_threads(t_dinnertable *dinnertable, const char **error_msg);
+
+char	destroy_mutexes(int n_mutexs_created, int j, t_control *mutexes);
+char	end_threads(t_dinnertable *dinnertable, int n_threads_created);
+/*
  *	Functions used when converting input to data the program will use.
  */
-t_pgrm_data	*convert_input(int argc, char **argv);
-suseconds_t	get_time(void);
-suseconds_t	get_time_diff(suseconds_t init_time);
-int			ft_atoi_err(const char *str, char *err);
+int		ft_atoi_err(const char *str, char *err);
 
 /*
  *	Functions used in memory allocation.
  */
-t_pgrm_data	*clear_data(t_pgrm_data **data);
-void		*ft_calloc(size_t count, size_t size);
-void		*ft_memset(void *s, int c, size_t n);
+void	*ft_calloc(size_t count, size_t size);
+void	*ft_memset(void *s, int c, size_t n);
 
 /*
  *	Functions used to display data.
  */
-int			ft_putstr(int fd, char *str);
-int			ft_putchar_err(int fd, char c, char *err);
-int			ft_putnbr_long_err(int fd, unsigned long number, char *err);
-int			ft_putnbr_err(int fd, int num, char *err);
-int			ft_putstr_err(int fd, char *str, char *err);
+int		ft_putstr(int fd, char *str);
+int		ft_putchar(int fd, char c);
+int		ft_putnbr_long(int fd, unsigned long number);
+int		ft_putnbr(int fd, int num);
+int		ft_putstr(int fd, char *str);
 
 /*
  *	Functions to display the states of the philosophers.
  */
-int	display_fork(long ms, int philosopher, pthread_mutex_t *mutex);
-int	display_eating(long ms, int philosopher, pthread_mutex_t *mutex);
-int	display_sleeping(long ms, int philosopher, pthread_mutex_t *mutex);
-int	display_thinking(long ms, int philosopher, pthread_mutex_t *mutex);
-int	display_died(long ms, int philosopher, pthread_mutex_t *mutex);
-int	display_state(long ms, int philo, char *state, pthread_mutex_t *mutex);
-
+int		display_fork(long ms, int philosopher, pthread_mutex_t *mutex);
+int		display_eating(long ms, int philosopher, pthread_mutex_t *mutex);
+int		display_sleeping(long ms, int philosopher, pthread_mutex_t *mutex);
+int		display_thinking(long ms, int philosopher, pthread_mutex_t *mutex);
+int		display_died(long ms, int philosopher, pthread_mutex_t *mutex);
+int		display_state(long ms, int philo, char *state, pthread_mutex_t *mutex);
 
 /*
  *	Actions of philsophers.
  */
+void	philo_think(t_philo *philo);
 void	philo_eat(t_philo *philo);
 void	philo_sleep(t_philo *philo);
-void	philo_think(t_philo *philo);
 
-/*
- *	Thread functions.
- */
-char	init_philosophers(pthread_t *philos, t_pgrm_data *data);
-void	wait_philosophers(pthread_t *philos, char n_philosophers);
-
-
-//----------------------------------------------------------new functions
-
-
-/*
- *	Functions to initialize the program correctly.
- */
-char	init_data(int argc, char **argv, t_dinnertable *dinnertable,
-	char *error_msg);
-char	init_control(t_dinnertable *dinnertable, char **error_msg);
-
-
+void	*philo_funct(void *arg);
 
 /*
  *	Printing an error when starting the program to stdout.
  */
 void	print_error(const char *error_msg);
 
+long	get_time();
+long	get_curr_time(t_philo *philo);
 
 #endif

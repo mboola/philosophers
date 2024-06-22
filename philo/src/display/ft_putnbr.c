@@ -12,7 +12,7 @@
 
 #include "philosophers.h"
 
-int	ft_putnbr_err(int fd, int num, char *err)
+int	ft_putnbr(int fd, int num)
 {
 	unsigned int	number;
 	int				count;
@@ -20,12 +20,10 @@ int	ft_putnbr_err(int fd, int num, char *err)
 	count = 0;
 	if (num < 0)
 	{
-		count += ft_putchar_err(fd, '-', err);
+		count += ft_putchar(fd, '-');
 		number = num * -1;
 	}
 	else
 		number = num;
-	if (*err)
-		return (count);
-	return (count + ft_putnbr_long_err(fd, 0 + number, err));
+	return (count + ft_putnbr_long(fd, 0 + number));
 }

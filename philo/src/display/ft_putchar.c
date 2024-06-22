@@ -12,9 +12,8 @@
 
 #include "philosophers.h"
 
-int	ft_putchar_err(int fd, char c, char *err)
+int	ft_putchar(int fd, char c)
 {
-	if (write(fd, &c, 1) < 0)
-		*err = -1;
+	write(fd, &c, 1);
 	return (1);
 }

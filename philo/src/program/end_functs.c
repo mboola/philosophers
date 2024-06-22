@@ -17,19 +17,18 @@ char	end_threads(t_dinnertable *dinnertable, int n_threads_created)
 	int	i;
 
 	i = 0;
-	dinnertable->control.error_init = TRUE;
 	while (i < n_threads_created)
 	{
 		pthread_join(dinnertable->thread_id[i], NULL);
 		i++;
 	}
-	destroy_mutexes(dinnertable->data->n_philosophers + 5,
-		dinnertable->data->n_philosophers, &(dinnertable->control));
+	destroy_mutexes(dinnertable->n_philosophers + 5,
+		dinnertable->n_philosophers, &(dinnertable->control));
 	free(dinnertable->control.forks);
 	return (ERROR);
 }
 
-static char	check_destroy(pthread_mutex_t mutex, int *i)
+static char	check_destroy(pthread_mutex_t *mutex, int *i)
 {
 	if (*i == 0)
 		return (ERROR);
@@ -43,19 +42,19 @@ char	destroy_mutexes(int n_mutexs_created, int j, t_control *mutexes)
 	int	i;
 
 	i = n_mutexs_created;
-	if (check_destroy(mutexes->access_to_forks, &i) == ERROR)
+	if (check_destroy(&(mutexes->access_to_forks), &i) == ERROR)
 		return (ERROR);
-	if (check_destroy(mutexes->limit_access, &i) == ERROR)
+	if (check_destroy(&(mutexes->limit_access), &i) == ERROR)
 		return (ERROR);
-	if (check_destroy(mutexes->update_n_access, &i) == ERROR)
+	if (check_destroy(&(mutexes->update_n_access), &i) == ERROR)
 		return (ERROR);
-	if (check_destroy(mutexes->liberate_forks, &i) == ERROR)
+	if (check_destroy(&(mutexes->liberate_forks), &i) == ERROR)
 		return (ERROR);
-	if (check_destroy(mutexes->print_access, &i) == ERROR)
+	if (check_destroy(&(mutexes->print_access), &i) == ERROR)
 		return (ERROR);
 	while (j >= 0)
 	{
-		if (check_destroy(mutexes->forks[j], &i) == ERROR)
+		if (check_destroy(&(mutexes->forks[j]), &i) == ERROR)
 			return (ERROR);
 		j--;
 	}
