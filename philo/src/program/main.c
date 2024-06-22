@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "philosophers.h"
+#include <stdio.h>
 
 static void finalize_data(t_dinnertable *dinnertable)
 {
@@ -20,6 +21,9 @@ static void finalize_data(t_dinnertable *dinnertable)
 
 static void	main_loop(t_dinnertable *dinnertable)
 {
+	//ft_putstr(1, "Max access :");
+	//ft_putnbr(1, dinnertable->control.max_n_access);
+	//ft_putstr(1, "\n");
 	dinnertable->start = TRUE;
 	while (dinnertable->end == FALSE);
 }

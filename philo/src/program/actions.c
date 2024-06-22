@@ -21,8 +21,14 @@ void	philo_think(t_philo *philo)
 static void	access_forks(t_control *mutexes)
 {
 	pthread_mutex_lock(&(mutexes->access_to_forks));
-	if (mutexes->n_access == mutexes->max_n_access - 1)
+	pthread_mutex_lock(&(mutexes->update_n_access));
+	if (mutexes->n_access == mutexes->max_n_access)
+	{
+		pthread_mutex_unlock(&(mutexes->update_n_access));
 		pthread_mutex_lock(&(mutexes->limit_access));
+	}
+	else
+		pthread_mutex_unlock(&(mutexes->update_n_access));
 	pthread_mutex_lock(&(mutexes->update_n_access));
 	mutexes->n_access++;
 	pthread_mutex_unlock(&(mutexes->update_n_access));
@@ -32,8 +38,14 @@ static void	access_forks(t_control *mutexes)
 static void	liberate_forks(t_control *mutexes)
 {
 	pthread_mutex_lock(&(mutexes->liberate_forks));
-	if (mutexes->n_access == mutexes->max_n_access - 1)
+	pthread_mutex_lock(&(mutexes->update_n_access));
+	if (mutexes->n_access == mutexes->max_n_access)
+	{
+		pthread_mutex_unlock(&(mutexes->update_n_access));
 		pthread_mutex_unlock(&(mutexes->limit_access));
+	}
+	else
+		pthread_mutex_unlock(&(mutexes->update_n_access));
 	pthread_mutex_lock(&(mutexes->update_n_access));
 	mutexes->n_access--;
 	pthread_mutex_unlock(&(mutexes->update_n_access));
@@ -55,7 +67,7 @@ void	philo_eat(t_philo *philo)
 		&(philo->dinnertable->control.print_access));
 	display_eating(get_curr_time(philo), philo->id,
 		&(philo->dinnertable->control.print_access));
-	usleep(philo->dinnertable->data.ms_to_eat);
+	usleep(philo->dinnertable->data.ms_to_eat * 1000);
 	pthread_mutex_unlock(&(control->forks[philo->id]));
 	pthread_mutex_unlock(
 		&(control->forks[(philo->id + 1) % philo->dinnertable->n_philosophers]));
@@ -66,5 +78,5 @@ void	philo_sleep(t_philo *philo)
 {
 	display_sleeping(get_curr_time(philo), philo->id,
 		&(philo->dinnertable->control.print_access));
-	usleep(philo->dinnertable->data.ms_to_sleep);
+	usleep(philo->dinnertable->data.ms_to_sleep * 1000);
 }
