@@ -29,14 +29,6 @@
 # include "values_limits.h"
 # include "error_msg.h"
 
-# ifndef DEC_BASE
-#  define DEC_BASE "0123456789"
-# endif
-
-# ifndef MAX_INT
-#  define MAX_INT 2147483647
-# endif
-
 /*
  *	Functions to initialize the program correctly.
  */

@@ -34,7 +34,8 @@ PTHREAD			=	-lpthread
 #	FILES
 #------------------------------------------------------------------------------
 PHILOSOPHERS_HEADER	=	${INCLUDE}/philosophers.h ${INCLUDE}/philo_structs.h \
-						${INCLUDE}/error_msg.h ${INCLUDE}/values_limits.h
+						${INCLUDE}/error_msg.h ${INCLUDE}/values_limits.h \
+						${INCLUDE}/display_msg.h
 
 ALLOCATION	=	ft_calloc.c ft_memset.c
 CONVERTERS	=	ft_atoi_err.c

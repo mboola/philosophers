@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   values_limits.h                                    :+:      :+:    :+:   */
+/*   error_msg.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,47 +10,27 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VALUES_LIMITS_H
-# define VALUES_LIMITS_H
+#ifndef DISPLAY_MSG_H
+# define DISPLAY_MSG_H
 
-# ifndef MAX_THREADS
-#  define MAX_THREADS 16000
+# ifndef FORK_TAKEN_MSG
+#  define FORK_TAKEN_MSG "\033[0;34m has taken a fork\033[0m\n"
 # endif
 
-# ifndef ERROR
-#  define ERROR 0
+# ifndef EAT_MSG
+#  define EAT_MSG "\033[0;35m is eating\033[0m\n"
 # endif
 
-# ifndef CORRECT
-#  define CORRECT 1
+# ifndef SLEEP_MSG
+#  define SLEEP_MSG "\033[0;36m is sleeping\033[0m\n"
 # endif
 
-# ifndef TRUE
-#  define TRUE 1
+# ifndef THINKING_MSG
+#  define THINKING_MSG "\033[0;37m is thinking\033[0m\n"
 # endif
 
-# ifndef FALSE
-#  define FALSE 0
-# endif
-
-# ifndef ERROR_PROGRAM
-#  define ERROR_PROGRAM 2
-# endif
-
-# ifndef MUTEX_CORRECTLY_CREATED
-#  define MUTEX_CORRECTLY_CREATED 0
-# endif
-
-# ifndef THREAD_CORRECTLY_CREATED
-#  define THREAD_CORRECTLY_CREATED 0
-# endif
-
-# ifndef DEC_BASE
-#  define DEC_BASE "0123456789"
-# endif
-
-# ifndef MAX_INT
-#  define MAX_INT 2147483647
+# ifndef DEATH_MSG
+#  define DEATH_MSG "died\n"
 # endif
 
 #endif

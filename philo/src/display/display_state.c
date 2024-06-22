@@ -17,7 +17,7 @@ int	display_state(long ms, int philo_id, char *state, pthread_mutex_t *mutex)
 {
 	pthread_mutex_lock(mutex);
 	ft_putnbr_long(1, ms);
-	ft_putchar(1, ' ');
+	ft_putstr(1, ": philosopher ");
 	ft_putnbr(1, philo_id);
 	ft_putstr(1, state);
 	pthread_mutex_unlock(mutex);
