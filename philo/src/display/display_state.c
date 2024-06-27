@@ -12,16 +12,26 @@
 
 #include "philosophers.h"
 
-//probably use a mutex here
-int	display_state(long ms, int philo_id, char *state, pthread_mutex_t *mutex)
+static void	display_msg(t_philo *philo, const char *state)
 {
-	pthread_mutex_lock(mutex);
-	ft_putnbr_long(1, ms);
+	ft_putnbr_long(1, get_curr_time(philo));
 	ft_putstr(1, ": philosopher ");
-	ft_putnbr(1, philo_id);
+	ft_putnbr(1, philo->id);
 	ft_putstr(1, state);
-	pthread_mutex_unlock(mutex);
-	return (1);
+}
+
+void	display_state(t_philo *philo, const char *state, t_control *control)
+{
+	pthread_mutex_lock(&(control->starved));
+	if (control->philo_died == TRUE)
+	{
+		pthread_mutex_unlock(&(control->starved));
+		return ;
+	}
+	pthread_mutex_lock(&(control->print_access));
+	display_msg(philo, state);
+	pthread_mutex_unlock(&(control->print_access));
+	pthread_mutex_unlock(&(control->starved));
 }
 
 void	print_error(const char *error_msg)

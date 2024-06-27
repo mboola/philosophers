@@ -12,7 +12,7 @@
 
 #include "philosophers.h"
 
-int	ft_putstr(int fd, char *str)
+int	ft_putstr(int fd, const char *str)
 {
 	int		count;
 

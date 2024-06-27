@@ -13,27 +13,27 @@
 #include "philosophers.h"
 #include "display_msg.h"
 
-int	display_fork(long ms, int philo_id, pthread_mutex_t *mutex)
+void	display_fork(t_philo *philo, t_control *control)
 {
-	return (display_state(ms, philo_id, FORK_TAKEN_MSG, mutex));
+	return (display_state(philo, FORK_TAKEN_MSG, control));
 }
 
-int	display_eating(long ms, int philo_id, pthread_mutex_t *mutex)
+void	display_eating(t_philo *philo, t_control *control)
 {
-	return (display_state(ms, philo_id, EAT_MSG, mutex));
+	return (display_state(philo, EAT_MSG, control));
 }
 
-int	display_sleeping(long ms, int philo_id, pthread_mutex_t *mutex)
+void	display_sleeping(t_philo *philo, t_control *control)
 {
-	return (display_state(ms, philo_id, SLEEP_MSG, mutex));
+	return (display_state(philo, SLEEP_MSG, control));
 }
 
-int	display_thinking(long ms, int philo_id, pthread_mutex_t *mutex)
+void	display_thinking(t_philo *philo, t_control *control)
 {
-	return (display_state(ms, philo_id, THINKING_MSG, mutex));
+	return (display_state(philo, THINKING_MSG, control));
 }
 
-int	display_died(long ms, int philo_id, pthread_mutex_t *mutex)
+void	display_died(t_philo *philo, t_control *control)
 {
-	return (display_state(ms, philo_id, DEATH_MSG, mutex));
+	return (display_state(philo, DEATH_MSG, control));
 }

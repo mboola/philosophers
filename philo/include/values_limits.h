@@ -45,6 +45,10 @@
 #  define THREAD_CORRECTLY_CREATED 0
 # endif
 
+# ifndef N_MUTEXES
+#  define N_MUTEXES 6
+# endif
+
 # ifndef DEC_BASE
 #  define DEC_BASE "0123456789"
 # endif

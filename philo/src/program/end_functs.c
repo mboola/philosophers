@@ -22,9 +22,9 @@ char	end_threads(t_dinnertable *dinnertable, int n_threads_created)
 		pthread_join(dinnertable->thread_id[i], NULL);
 		i++;
 	}
-	destroy_mutexes(dinnertable->n_philosophers + 5,
-		dinnertable->n_philosophers, &(dinnertable->control));
-	free(dinnertable->control.forks);
+	destroy_mutexes(dinnertable->n_philosophers + N_MUTEXES,
+		dinnertable->n_philosophers, dinnertable->control);
+	free(dinnertable->control->forks);
 	return (ERROR);
 }
 
@@ -51,6 +51,8 @@ char	destroy_mutexes(int n_mutexs_created, int j, t_control *mutexes)
 	if (check_destroy(&(mutexes->liberate_forks), &i) == ERROR)
 		return (ERROR);
 	if (check_destroy(&(mutexes->print_access), &i) == ERROR)
+		return (ERROR);
+	if (check_destroy(&(mutexes->starved), &i) == ERROR)
 		return (ERROR);
 	while (j >= 0)
 	{

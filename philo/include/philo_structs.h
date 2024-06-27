@@ -28,11 +28,13 @@ typedef struct s_control
 {
 	int				n_access;
 	int				max_n_access;
+	char			philo_died;
 	pthread_mutex_t	access_to_forks;
 	pthread_mutex_t	limit_access;
 	pthread_mutex_t	update_n_access;
 	pthread_mutex_t	liberate_forks;
 	pthread_mutex_t	print_access;
+	pthread_mutex_t	starved;
 	pthread_mutex_t	*forks;
 }	t_control;
 
@@ -44,7 +46,7 @@ typedef struct s_dinnertable
 	int			n_philosophers;
 	pthread_t	thread_id[MAX_THREADS];
 	t_data		data;
-	t_control	control;
+	t_control	*control;
 }	t_dinnertable;
 
 typedef struct s_philo

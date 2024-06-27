@@ -37,6 +37,8 @@ static char	init_mutexes(t_control *mutexes, int n_philo)
 		return (destroy_mutexes(n_mutexes_created, j, mutexes));
 	if (create_mutex(&mutexes->print_access, &n_mutexes_created) == ERROR)
 		return (destroy_mutexes(n_mutexes_created, j, mutexes));
+	if (create_mutex(&mutexes->starved, &n_mutexes_created) == ERROR)
+		return (destroy_mutexes(n_mutexes_created, j, mutexes));
 	while (j < n_philo)
 	{
 		if (create_mutex(&(mutexes->forks[j]), &n_mutexes_created) == ERROR)
@@ -53,24 +55,21 @@ static char	init_mutexes(t_control *mutexes, int n_philo)
  */
 char	init_control(t_dinnertable *dinnertable, const char **error_msg)
 {
-	t_control	mutexes;
-
-	mutexes.n_access = 0;
+	dinnertable->control->n_access = 0;
 	if (dinnertable->n_philosophers == 1)
-		mutexes.max_n_access = 1;
+		dinnertable->control->max_n_access = 1;
 	else
-		mutexes.max_n_access = dinnertable->n_philosophers - 1;
-	mutexes.forks = ft_calloc(sizeof(pthread_mutex_t), dinnertable->n_philosophers);
-	if (mutexes.forks == NULL)
+		dinnertable->control->max_n_access = dinnertable->n_philosophers - 1;
+	dinnertable->control->forks = ft_calloc(sizeof(pthread_mutex_t), dinnertable->n_philosophers);
+	if (dinnertable->control->forks == NULL)
 	{
 		*error_msg = MALLOC_ERROR;
 		return (ERROR);
 	}
-	if (init_mutexes(&mutexes, dinnertable->n_philosophers) == ERROR)
+	if (init_mutexes(dinnertable->control, dinnertable->n_philosophers) == ERROR)
 	{
-		free(mutexes.forks);
+		free(dinnertable->control->forks);
 		return (ERROR);
 	}
-	dinnertable->control = mutexes;
 	return (CORRECT);
 }

@@ -31,8 +31,10 @@ static void	main_loop(t_dinnertable *dinnertable)
 int	main(int argc, char **argv)
 {
 	t_dinnertable	dinnertable;
+	t_control		control;
 	const char		*error_msg;
 
+	dinnertable.control = &control;
 	if (init_data(argc, argv, &dinnertable, (&error_msg)) == ERROR)
 	{
 		print_error(error_msg);

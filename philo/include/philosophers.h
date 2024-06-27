@@ -53,21 +53,21 @@ void	*ft_memset(void *s, int c, size_t n);
 /*
  *	Functions used to display data.
  */
-int		ft_putstr(int fd, char *str);
+int		ft_putstr(int fd, const char *str);
 int		ft_putchar(int fd, char c);
 int		ft_putnbr_long(int fd, unsigned long number);
 int		ft_putnbr(int fd, int num);
-int		ft_putstr(int fd, char *str);
 
 /*
  *	Functions to display the states of the philosophers.
  */
-int		display_fork(long ms, int philosopher, pthread_mutex_t *mutex);
-int		display_eating(long ms, int philosopher, pthread_mutex_t *mutex);
-int		display_sleeping(long ms, int philosopher, pthread_mutex_t *mutex);
-int		display_thinking(long ms, int philosopher, pthread_mutex_t *mutex);
-int		display_died(long ms, int philosopher, pthread_mutex_t *mutex);
-int		display_state(long ms, int philo, char *state, pthread_mutex_t *mutex);
+void	display_fork(t_philo *philo, t_control *control);
+void	display_eating(t_philo *philo, t_control *control);
+void	display_sleeping(t_philo *philo, t_control *control);
+void	display_thinking(t_philo *philo, t_control *control);
+void	display_died(t_philo *philo, t_control *control);
+
+void	display_state(t_philo *philo, const char *state, t_control *control);
 
 /*
  *	Actions of philsophers.
