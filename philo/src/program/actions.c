@@ -46,16 +46,20 @@ static void	liberate_forks(t_control *mutexes)
 void	philo_eat(t_philo *philo)
 {
 	t_control	*control;
+	//long		enter_time;
 
 	control = philo->dinnertable->control;
+	//enter_time = get_time();
 	access_forks(control);
 	pthread_mutex_lock(&(control->forks[philo->id]));
+	//philo->time_till_death = philo->time_till_death
 	display_fork(philo, philo->dinnertable->control);
 	pthread_mutex_lock(
 		&(control->forks[(philo->id + 1) % philo->dinnertable->n_philosophers]));
 	display_fork(philo, philo->dinnertable->control);
 	display_eating(philo, philo->dinnertable->control);
-	usleep(philo->dinnertable->data.ms_to_eat * 1000);
+	philo_spend_time(philo, philo->dinnertable->data.ms_to_eat, FALSE);
+	//philo->time_till_death = philo->dinnertable->data.ms_to_die;
 	pthread_mutex_unlock(&(control->forks[philo->id]));
 	pthread_mutex_unlock(
 		&(control->forks[(philo->id + 1) % philo->dinnertable->n_philosophers]));
@@ -65,5 +69,5 @@ void	philo_eat(t_philo *philo)
 void	philo_sleep(t_philo *philo)
 {
 	display_sleeping(philo, philo->dinnertable->control);
-	usleep(philo->dinnertable->data.ms_to_sleep * 1000);
+	philo_spend_time(philo, philo->dinnertable->data.ms_to_sleep, TRUE);
 }

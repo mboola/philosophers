@@ -34,7 +34,7 @@
  */
 char	init_data(int argc, char **argv, t_dinnertable *dinnertable,
 	const char **error_msg);
-char	init_control(t_dinnertable *dinnertable, const char **error_msg);
+char	init_control(t_control *control, int n_philo, const char **error_msg);
 char	init_threads(t_dinnertable *dinnertable, const char **error_msg);
 
 char	destroy_mutexes(int n_mutexs_created, int j, t_control *mutexes);
@@ -77,6 +77,7 @@ void	philo_eat(t_philo *philo);
 void	philo_sleep(t_philo *philo);
 
 void	*philo_funct(void *arg);
+void	*philo_timer(void *arg);
 
 /*
  *	Printing an error when starting the program to stdout.
@@ -84,6 +85,7 @@ void	*philo_funct(void *arg);
 void	print_error(const char *error_msg);
 
 long	get_time();
-long	get_curr_time(t_philo *philo);
+long	get_time_diff(t_philo *philo);
+void	philo_spend_time(t_philo *philo, long time_to_wait, char can_die);
 
 #endif

@@ -19,7 +19,13 @@ static t_philo	*create_philo(t_dinnertable *dinnertable, int id)
 	philo = malloc(sizeof(t_philo));
 	if (philo == NULL)
 		return (NULL);
+	philo->end = FALSE;
 	philo->id = id;
+	if (dinnertable->data.can_end)
+		philo->meals_remaining = dinnertable->data.times_to_eat;
+	else
+		philo->meals_remaining = -1;
+	philo->time_till_death = dinnertable->data.ms_to_die;
 	philo->dinnertable = dinnertable;
 	return (philo);
 }
@@ -39,7 +45,7 @@ char	init_threads(t_dinnertable *dinnertable, const char **error_msg)
 			dinnertable->error_init = TRUE;
 			return (end_threads(dinnertable, i));
 		}
-		if (pthread_create(&(dinnertable->thread_id[i]), NULL, philo_funct,
+		if (pthread_create(&(dinnertable->philo_id[i]), NULL, philo_funct,
 			(void *)philo) != THREAD_CORRECTLY_CREATED)
 		{
 			*error_msg = THREAD_CREATION_ERROR;

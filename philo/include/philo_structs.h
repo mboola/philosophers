@@ -28,7 +28,7 @@ typedef struct s_control
 {
 	int				n_access;
 	int				max_n_access;
-	char			philo_died;
+	char			end;
 	pthread_mutex_t	access_to_forks;
 	pthread_mutex_t	limit_access;
 	pthread_mutex_t	update_n_access;
@@ -42,17 +42,19 @@ typedef struct s_dinnertable
 {
 	char		error_init;
 	char		start;
-	char		end;
 	int			n_philosophers;
-	pthread_t	thread_id[MAX_THREADS];
+	pthread_t	philo_id[MAX_THREADS];
 	t_data		data;
 	t_control	*control;
 }	t_dinnertable;
 
 typedef struct s_philo
 {
+	char			end;
 	int				id;
+	int				meals_remaining;
 	long			start_time;
+	long			time_till_death;
 	t_dinnertable	*dinnertable;
 }	t_philo;
 

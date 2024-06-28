@@ -19,7 +19,7 @@ char	end_threads(t_dinnertable *dinnertable, int n_threads_created)
 	i = 0;
 	while (i < n_threads_created)
 	{
-		pthread_join(dinnertable->thread_id[i], NULL);
+		pthread_join(dinnertable->philo_id[i], NULL);
 		i++;
 	}
 	destroy_mutexes(dinnertable->n_philosophers + N_MUTEXES,

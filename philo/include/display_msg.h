@@ -30,7 +30,7 @@
 # endif
 
 # ifndef DEATH_MSG
-#  define DEATH_MSG "died\n"
+#  define DEATH_MSG "\033[0;33m died\033[0m\n"
 # endif
 
 #endif

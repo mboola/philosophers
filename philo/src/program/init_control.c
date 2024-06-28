@@ -53,22 +53,20 @@ static char	init_mutexes(t_control *mutexes, int n_philo)
  *	It must only have one fork (subject says n_forks = n_philo)
  *	Then it must die, it needs at least two forks to eat.
  */
-char	init_control(t_dinnertable *dinnertable, const char **error_msg)
+char	init_control(t_control *control, int n_philo, const char **error_msg)
 {
-	dinnertable->control->n_access = 0;
-	if (dinnertable->n_philosophers == 1)
-		dinnertable->control->max_n_access = 1;
-	else
-		dinnertable->control->max_n_access = dinnertable->n_philosophers - 1;
-	dinnertable->control->forks = ft_calloc(sizeof(pthread_mutex_t), dinnertable->n_philosophers);
-	if (dinnertable->control->forks == NULL)
+	control->n_access = 0;
+	control->end = FALSE;
+	control->max_n_access = n_philo - 1;
+	control->forks = ft_calloc(sizeof(pthread_mutex_t), n_philo);
+	if (control->forks == NULL)
 	{
 		*error_msg = MALLOC_ERROR;
 		return (ERROR);
 	}
-	if (init_mutexes(dinnertable->control, dinnertable->n_philosophers) == ERROR)
+	if (init_mutexes(control, n_philo) == ERROR)
 	{
-		free(dinnertable->control->forks);
+		free(control->forks);
 		return (ERROR);
 	}
 	return (CORRECT);

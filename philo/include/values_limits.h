@@ -49,6 +49,10 @@
 #  define N_MUTEXES 6
 # endif
 
+# ifndef A_MILISECOND
+#  define A_MILISECOND 1000
+# endif
+
 # ifndef DEC_BASE
 #  define DEC_BASE "0123456789"
 # endif
